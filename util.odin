@@ -13,3 +13,8 @@ load_texture :: proc(filename: string) -> rl.Texture {
 	}
 	return rl.LoadTexture(strings.clone_to_cstring(filename))
 }
+
+cursor_pos :: proc() -> Vec2 {
+	ratio := f32(WINDOW_WIDTH) / SCREEN_WIDTH
+	return rl.GetMousePosition() / ratio
+}

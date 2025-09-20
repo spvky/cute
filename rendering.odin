@@ -1,12 +1,18 @@
 package main
 
-import "core:math"
 import rl "vendor:raylib"
 
-render_scene :: proc() {
+render :: proc() {
+	draw_to_texture()
+	draw_to_screen()
+}
+
+draw_to_texture :: proc() {
 	rl.BeginTextureMode(screen_texture)
 	rl.ClearBackground({0, 12, 240, 255})
-	// Draw the scene here
+	pos := cursor_pos()
+	render_bugs()
+	rl.DrawCircleV(pos, 10, rl.RED)
 	rl.EndTextureMode()
 }
 
@@ -15,7 +21,7 @@ draw_to_screen :: proc() {
 	rl.ClearBackground(rl.BLACK)
 	source := rl.Rectangle {
 		x      = 0,
-		y      = 0,
+		y      = f32(WINDOW_HEIGHT - SCREEN_HEIGHT),
 		width  = f32(SCREEN_WIDTH),
 		height = -f32(SCREEN_HEIGHT),
 	}

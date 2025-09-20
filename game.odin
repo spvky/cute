@@ -6,6 +6,7 @@ import rl "vendor:raylib"
 world: World
 screen_texture: rl.RenderTexture
 run: bool
+bugs: [dynamic]Bug
 
 WINDOW_WIDTH: i32
 WINDOW_HEIGHT: i32
@@ -18,13 +19,15 @@ init :: proc() {
 	WINDOW_HEIGHT = 900
 	run = true
 	rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Game")
+	bugs = make_bugs()
 	screen_texture = rl.LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT)
 	world = make_world()
 }
 
 update :: proc() {
-	render_scene()
-	draw_to_screen()
+	handle_bug_wander()
+	handle_bug_movement()
+	render()
 }
 
 shutdown :: proc() {
