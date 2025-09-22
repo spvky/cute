@@ -22,9 +22,9 @@ Bug_State :: enum {
 	Follow,
 }
 
-make_bugs :: proc() -> [dynamic]Bug {
-	bugs_collection := make([dynamic]Bug, 0, 16)
-	for i in 0 ..< 16 {
+make_bugs :: proc(amount: int = 32) -> [dynamic]Bug {
+	bugs_collection := make([dynamic]Bug, 0, amount)
+	for i in 0 ..< amount {
 		x_pos := rand.float32() * SCREEN_WIDTH
 		y_pos := rand.float32() * SCREEN_HEIGHT
 		append(&bugs_collection, Bug{position = {x_pos, y_pos}, radius = 5})
@@ -60,11 +60,11 @@ handle_bug_movement :: proc() {
 	for &b in bugs {
 		if l.length2(b.move_delta) != 0 {
 			if l.length(b.velocity) < b.max_speed {
-				b.velocity += b.move_delta * 0.05 * b.max_speed
+				b.velocity += b.move_delta * 0.1 * b.max_speed
 			}
 			b.velocity = 0.98 * b.velocity
-			b.position += b.velocity * frametime
 		}
+		b.position += b.velocity * frametime
 	}
 }
 
