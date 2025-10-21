@@ -30,6 +30,7 @@ init :: proc() {
 update :: proc() {
 	handle_bug_wander()
 	handle_bug_movement()
+	select()
 	render()
 }
 

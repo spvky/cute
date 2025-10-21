@@ -5,6 +5,8 @@ import l "core:math/linalg"
 import "core:math/rand"
 import rl "vendor:raylib"
 
+selected_bug: ^Bug
+
 Bug :: struct {
 	position:         Vec2,
 	velocity:         Vec2,
@@ -14,6 +16,7 @@ Bug :: struct {
 	detection_radius: f32,
 	state:            Bug_State,
 	decision_timer:   f32,
+	selected:         bool,
 }
 
 
@@ -31,6 +34,13 @@ make_bugs :: proc(amount: int = 32) -> [dynamic]Bug {
 	}
 	return bugs_collection
 }
+
+unselect_bugs :: proc() {
+	for &b in bugs {
+		b.selected = false
+	}
+}
+
 
 handle_bug_wander :: proc() {
 	frametime := rl.GetFrameTime()
@@ -70,6 +80,9 @@ handle_bug_movement :: proc() {
 
 render_bugs :: proc() {
 	for b in bugs {
+		if b.selected {
+			rl.DrawCircleV(b.position, b.radius * 1.25, rl.RED)
+		}
 		rl.DrawCircleV(b.position, b.radius, rl.WHITE)
 	}
 }

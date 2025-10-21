@@ -1,5 +1,7 @@
 package main
 
+import "core:fmt"
+import "core:strings"
 import "vendor:ghst/ui/buttons"
 import rl "vendor:raylib"
 
@@ -36,5 +38,14 @@ handle_data_menu :: proc() {
 		600,
 		500,
 		button_style.unclicked_color,
+	)
+	position_text :=
+		selected_bug != nil ? fmt.tprintf("Position: [%.f0,%.f0]", selected_bug.position.x, selected_bug.position.y) : fmt.tprintf("Position: ----")
+	rl.DrawText(
+		strings.clone_to_cstring(position_text, context.temp_allocator),
+		620,
+		i32(data_menu_y_position.lerp_value) + 72,
+		36,
+		rl.WHITE,
 	)
 }
