@@ -1,22 +1,25 @@
 package main
 
+import "core:math"
 import rl "vendor:raylib"
 
+crosshair_rot: f32
+
 render :: proc() {
-	draw_to_texture()
-	draw_to_screen()
+	frametime := rl.GetFrameTime()
+	draw_to_texture(frametime)
+	draw_to_screen(frametime)
 }
 
-draw_to_texture :: proc() {
+draw_to_texture :: proc(frametime: f32) {
 	rl.BeginTextureMode(screen_texture)
 	rl.ClearBackground({0, 12, 240, 255})
 	pos := cursor_pos()
 	render_bugs()
-	rl.DrawCircleV(pos, 10, rl.RED)
 	rl.EndTextureMode()
 }
 
-draw_to_screen :: proc() {
+draw_to_screen :: proc(frametime: f32) {
 	rl.BeginDrawing()
 	rl.ClearBackground(rl.BLACK)
 	source := rl.Rectangle {
@@ -34,5 +37,17 @@ draw_to_screen :: proc() {
 	origin := Vec2{0, 0}
 	rotation: f32 = 0
 	rl.DrawTexturePro(screen_texture.texture, source, dest, origin, rotation, rl.WHITE)
+	handle_smoothed_value(&data_menu_y_position, frametime)
+	handle_data_menu()
+	crosshair_rot += 90 * frametime
+	pos := rl.GetMousePosition()
+	rl.DrawTexturePro(
+		crosshair,
+		{0, 0, 16, 16},
+		{pos.x, pos.y, 32, 32},
+		{16, 16},
+		crosshair_rot,
+		rl.WHITE,
+	)
 	rl.EndDrawing()
 }

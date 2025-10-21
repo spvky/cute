@@ -19,6 +19,9 @@ init :: proc() {
 	WINDOW_HEIGHT = 900
 	run = true
 	rl.InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Game")
+	rl.HideCursor()
+	init_ui()
+	load_textures()
 	bugs = make_bugs(64)
 	screen_texture = rl.LoadRenderTexture(WINDOW_WIDTH, WINDOW_HEIGHT)
 	world = make_world()
